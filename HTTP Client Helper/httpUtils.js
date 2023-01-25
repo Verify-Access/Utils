@@ -95,7 +95,7 @@ var httpClientHelperV2 = new function () {
 
     this.httpRequest = function (method, urlStr, parametersObject) {
         this.setupInitialHeaders();
-        logger.log(ISAM_VERBOSE, "HttpClientHelperV2.httpRequest. method: " + method + ". url: " + urlStr + ". headers: " + headers.getHeaders().toString() + ". parameters: " + parametersObject + ".");
+        logger.log(ISAM_VERBOSE, "HttpClientHelperV2.httpRequest. method: " + method + ". url: " + urlStr + ". headers: " + headers.getHeaders().toString() + ". parameters: " + JSON.stringify(parametersObject) + ".");
         httpRequestResponse = null;
         returnObject = {};
         returnObject.success = false;
@@ -125,7 +125,7 @@ var httpClientHelperV2 = new function () {
                 httpRequestResponse = HttpClientV2.httpPost(
                     urlStr, // URL
                     headers, // Headers to be added to the request header.
-                    params, // Parameters to be added to the request body.
+                    this.jsonToParams(parametersObject), // Parameters to be added to the request body.
                     null, // httpsTrustStore - The trust store to use. If a HTTPS connection is required and this is set to NULL, the default trust store specified in the advanced configuration parameter util.httpClientv2.defaultTrustStore will be used.
                     null, // basicAuthUsername - Basic-auth username. If null, basic-auth will be disabled.
                     null, // basicAuthPassword - Basic-auth password. If null, basic-auth will be disabled.
@@ -142,7 +142,7 @@ var httpClientHelperV2 = new function () {
                 httpRequestResponse = HttpClientV2.httpPut(
                     urlStr, // URL
                     headers, // Headers to be added to the request header.
-                    params, // Parameters to be added to the request body.
+                    this.jsonToParams(parametersObject), // Parameters to be added to the request body.
                     null, // httpsTrustStore - The trust store to use. If a HTTPS connection is required and this is set to NULL, the default trust store specified in the advanced configuration parameter util.httpClientv2.defaultTrustStore will be used.
                     null, // basicAuthUsername - Basic-auth username. If null, basic-auth will be disabled.
                     null, // basicAuthPassword - Basic-auth password. If null, basic-auth will be disabled.
@@ -218,6 +218,7 @@ var httpClientHelperV2 = new function () {
         } else {
             // We didn't get an HTTP response.
             logger.log(ISAM_ERROR, "Didn't receive a HttpClientHelperV2.httphttpRequestResponse.")
+            return returnObject;
         }
     };
 }
