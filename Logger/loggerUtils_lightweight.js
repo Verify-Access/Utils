@@ -29,7 +29,7 @@ const LOGGER_VERSION = "1.0.0"
 function getDetailedTimestamp() {
     // Format aligned to what Logstash expects.
     var ts = new Date();
-    return ("0" + ts.getDate()).slice(-2) + "/" + ("0" + (ts.getMonth() + 1)).slice(-2) + "/" + ts.getFullYear() + "T" + ("00" + ts.getHours()).slice(-2) + ":" + ("00" + ts.getMinutes()).slice(-2) + ":" + ("00" + ts.getSeconds()).slice(-2) + "." + ("000" + ts.getMilliseconds()).slice(-3);
+    return ts.getFullYear() + "-" + ("0" + (ts.getMonth() + 1)).slice(-2) + "-" + ("0" + ts.getDate()).slice(-2) + "T" + ("00" + ts.getHours()).slice(-2) + ":" + ("00" + ts.getMinutes()).slice(-2) + ":" + ("00" + ts.getSeconds()).slice(-2) + "." + ("000" + ts.getMilliseconds()).slice(-3);
 }
 
 const LOG_OBJECT = {
@@ -49,7 +49,7 @@ const LOG_OBJECT = {
         message = message || "";
         currentTime = new Date();
         output = {
-            "time": "" + getDetailedTimestamp(),
+            "_timestamp": "" + getDetailedTimestamp(),
             "delta": currentTime - this.lastTime,
             "total": currentTime - this.init,
             "inst": "" + this.program,
