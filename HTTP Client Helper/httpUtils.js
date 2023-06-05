@@ -31,15 +31,9 @@ var httpClientHelperV2 = new function () {
     this.setupInitialHeaders = function () {
         if (!headers) {
             headers = new Headers();
+            headers.addHeader('Content-Type', 'application/json');
+            headers.addHeader('Accept', 'application/json');
         }
-
-        // If not not present, add the `Content-Type` header.
-        // if (!headers.getHeader('Content-Type')) { headers.addHeader('Content-Type', 'application/json'); }
-        headers.addHeader('Content-Type', 'application/json');
-
-        // If not not present, add the `Accept` header.
-        // if (!headers.getHeader('Accept')) { headers.addHeader('Accept', 'application/json'); }
-        headers.addHeader('Accept', 'application/json');
 
         return headers;
     }
@@ -71,7 +65,7 @@ var httpClientHelperV2 = new function () {
         this.customAccessToken = function (apiHeader, apiToken) {
             headers.addHeader(apiHeader, apiToken)
         }
-    
+
         /**
          * Sets a "Basic" HTTP authentication header, which transmits credentials as user ID/password pairs, encoded using base64.
          * @param {String} username User ID in clear text
@@ -88,7 +82,7 @@ var httpClientHelperV2 = new function () {
      * Overwrite the default value set in the advanced configuration property util.httpClientv2.connectTimeout.
      * @param {int} seconds Request timeout in seconds. A value of `0` will result in no connection timeout.
      */
-    this.timeOut = function(seconds) {
+    this.timeOut = function (seconds) {
         defaultTimeOut = seconds;
     }
 
@@ -101,7 +95,7 @@ var httpClientHelperV2 = new function () {
         returnObject.success = false;
         returnObject.code = 500;
         returnObject.body = {};
-        returnObject.headers = "";
+        // returnObject.headers = "";
 
         logger.startTimer(urlStr);
         switch (method) {
@@ -197,7 +191,7 @@ var httpClientHelperV2 = new function () {
 
         if (httpRequestResponse) {
             logger.log(ISAM_VERBOSE, "HttpClientHelperV2.httphttpRequestResponse. url: " + urlStr + ". code: " + httpRequestResponse.getCode() + ". headers: " + httpRequestResponse.getHeaders().toString() + ". body: " + httpRequestResponse.getBody() + ".");
-            
+
             // Add the response HTTP code.
             if (typeof httpRequestResponse.getCode() === "number") {
                 returnObject.code = httpRequestResponse.getCode();
@@ -205,12 +199,12 @@ var httpClientHelperV2 = new function () {
             returnObject.success = (("" + returnObject.code).match(/^2\d\d$/)) ? true : false // Matches on HTTP 2XX and returns `true`.
 
             // Add HTTP response headers.
-            returnObject.headers = "" + httpRequestResponse.getHeaders().toString();
+            //returnObject.headers = "" + httpRequestResponse.getHeaders().toString();
 
             // Attempting to parse the JSON response.
             try {
-                returnObject.body = JSON.parse(httpRequestResponse.getBody());
-            } catch(error) {
+                returnObject.body = JSON.parse('' + httpRequestResponse.getBody());
+            } catch (error) {
                 returnObject.body = "" + httpRequestResponse.getBody();
             }
 
