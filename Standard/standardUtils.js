@@ -260,3 +260,68 @@ var base64 = new function () {
         return "" + java.util.Base64.getEncoder().encodeToString(sfar[0].getBytes());
     }
 }
+
+
+/**
+ * Input validation.
+ */
+var inputValidate = new function () {
+    /**
+     * Validate URL matches an expected host.
+     * @param {string} fullUrl Full URL to check.
+     * @param {string} hostToLookFor Either the full or partial host name, e.g. `login.my.gov.au` | `.gov.au`. Partial host names SHOULD start with a `.` (full stop).
+     * @returns {boolean} Returns `true` if URL contains expected host, else returns `false`.
+     */
+    this.host = function (fullUrl, hostToLookFor) {
+        var regex = /^(([^:\/?#]+):)?(\/\/([^\/?#:]*))?([^?#]*)(\?([^#]*))?(#(.*))?/;
+        var found = fullUrl.match(regex);
+        var isValid = false;
+
+        if (hostToLookFor.startsWith(".")) {
+            // Partial host name provided.
+            if (found[4].endsWith(hostToLookFor) && !found[4].includes('@') && !found[5].includes('@')) {
+                var isValid = true;
+            }
+        } else {
+            // Full host name provided.
+            if (found[4] == hostToLookFor) {
+                var isValid = true;
+            }
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Validate email is an email.
+     * @param {string} email Email to validate.
+     * @returns {boolean} Returns `true` if string is an email, else returns `false`.
+     */
+    this.email = function (email) {
+        var regex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        var isValid = false;
+
+        if (email.match(regex)) {
+            var isValid = true;
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Determine the type of the value.
+     * @param {*} input Value to determine type of.
+     * @returns {object} Returns either, `object | boolean | integer | string`
+     */
+    this.determineType = function (input) {
+        if (typeof input === "object" || input.startsWith('{') || input.startsWith('[')) {
+            return "object";
+        } else if (input === "true" || input === "false") {
+            return "boolean";
+        } else if (Number.isInteger(Number(input)) && input) {
+            return "integer";
+        } else {
+            return "string";
+        }
+    }
+}
