@@ -158,6 +158,7 @@ const LOG_OBJECT = {
         this.doingOidcOp();
         this.event = "USERINFO";
         this.user = getAttributeValue("oidc_username", "urn:ibm:names:ITFIM:5.1:accessmanager", ATTRIBUTE, "unknown");
+        this.partner = getAttributeValue("client_id", "urn:ibm:names:ITFIM:oauth:response:metadata", CONTEXT, "");
     },
 
     doingToken: function () {

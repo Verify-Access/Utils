@@ -234,19 +234,6 @@ function javaToJsArray(arr) {
     return values;
 }
 
-function getStateInPreTokenRule() {
-    // Reads the Code (Or if that fails the Refresh Token) from the STSUU
-    var token = getAttributeValue("code", "urn:ibm:names:ITFIM:oauth:body:param", CONTEXT, null) || getAttributeValue("refresh_token", "urn:ibm:names:ITFIM:oauth:body:param", CONTEXT, null)
-
-    // Uses the token string to get the Token object from the DB.  Once we have that - we can read the StateId
-    if (token != null) {
-        grant = OAuthMappingExtUtils.getToken(token);
-        if (grant != null) {
-            return "" + grant.getStateId();
-        }
-    }
-}
-
 /**
  * Base64 Encode/Decode
  */
