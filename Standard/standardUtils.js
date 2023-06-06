@@ -19,9 +19,9 @@ importClass(Packages.com.ibm.security.access.server_connections.ServerConnection
 importClass(Packages.com.tivoli.am.fim.fedmgr2.trust.util.LocalSTSClient);
 importClass(Packages.java.lang.System);
 
-const CONTEXT = 'context';
-const ATTRIBUTE = 'attribute';
-const REQUEST = 'request';
+// const CONTEXT = 'CONTEXT';
+const ATTRIBUTE = 'ATTRIBUTE';
+const REQUEST = 'REQUEST';
 
 /**
  * Retrieves the named attribute from the *default* STSUU and converts to a JS Array full of JS Strings.
@@ -31,11 +31,11 @@ const REQUEST = 'request';
  * @return {Array}              Array of Strings (or empty in the Null case)
  */
 function getAttributeValues(name, type, container) {
-    if (container === CONTEXT) {
+    if (container === "CONTEXT") {
         values = stsuu.getContextAttributes().getAttributeValuesByNameAndType(name, type);
-    } else if (container === ATTRIBUTE) {
+    } else if (container === "ATTRIBUTE") {
         values = stsuu.getAttributeContainer().getAttributeValuesByNameAndType(name, type);
-    } else if (container === REQUEST) {
+    } else if (container === "REQUEST") {
         values = stsuu.getRequestSecurityToken().getAttributeValuesByNameAndType(name, type);
     }
 

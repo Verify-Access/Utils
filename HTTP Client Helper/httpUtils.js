@@ -89,7 +89,7 @@ var httpClientHelperV2 = new function () {
 
     this.httpRequest = function (method, urlStr, parametersObject) {
         this.setupInitialHeaders();
-        logger.log(ISAM_VERBOSE, "HttpClientHelperV2.httpRequest. method: " + method + ". url: " + urlStr + ". headers: " + headers.getHeaders().toString() + ". parameters: " + JSON.stringify(parametersObject) + ".");
+        logger.log(VERBOSE, "HttpClientHelperV2.httpRequest. method: " + method + ". url: " + urlStr + ". headers: " + headers.getHeaders().toString() + ". parameters: " + JSON.stringify(parametersObject) + ".");
         httpRequestResponse = null;
         returnObject = {};
         returnObject.success = false;
@@ -190,7 +190,7 @@ var httpClientHelperV2 = new function () {
         logger.stopTimer(urlStr);
 
         if (httpRequestResponse) {
-            logger.log(ISAM_VERBOSE, "HttpClientHelperV2.httphttpRequestResponse. url: " + urlStr + ". code: " + httpRequestResponse.getCode() + ". headers: " + httpRequestResponse.getHeaders().toString() + ". body: " + httpRequestResponse.getBody() + ".");
+            logger.log(VERBOSE, "HttpClientHelperV2.httphttpRequestResponse. url: " + urlStr + ". code: " + httpRequestResponse.getCode() + ". headers: " + httpRequestResponse.getHeaders().toString() + ". body: " + httpRequestResponse.getBody() + ".");
 
             // Add the response HTTP code.
             if (typeof httpRequestResponse.getCode() === "number") {
@@ -211,7 +211,7 @@ var httpClientHelperV2 = new function () {
             return returnObject;
         } else {
             // We didn't get an HTTP response.
-            logger.log(ISAM_ERROR, "Didn't receive a HttpClientHelperV2.httphttpRequestResponse.")
+            logger.log(ERROR, "Didn't receive a HttpClientHelperV2.httphttpRequestResponse.")
             return returnObject;
         }
     };
