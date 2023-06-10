@@ -10,3 +10,17 @@ The `httpClientHelperV2()` function simplifies making calls to other API's.
 ```javascript
 importMappingRule("httpUtils", "loggerUtils_lightweight");
 ```
+
+## Making a HTTP Request
+
+```javascript
+// To make a GET request:
+httpClientHelperV2.httpRequest(GET, "https://api.server.com")
+
+// To make a POST request:
+claims = {}
+claims.id = "12345"
+claims.message = "string"
+httpClientHelperV2.authorization.basic("user", "password")
+httpClientHelperV2.httpRequest(POST, "https://api.server.com/update", claims)
+```
