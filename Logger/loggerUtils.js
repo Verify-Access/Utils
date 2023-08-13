@@ -32,7 +32,7 @@ const LOG_LEVELS = {
 }
 
 const LOGGER_NAME = "Verify_Access_Logger"
-const LOGGER_VERSION = "1.0.0"
+const LOGGER_VERSION = "1.1.0"
 
 function getDetailedTimestamp() {
     // Format aligned to what Logstash expects.
@@ -96,6 +96,40 @@ const LOG_OBJECT = {
         }
         IDMappingExtUtils.traceString("##" + LOGGER_NAME + "_ver=" + LOGGER_VERSION + "##" + JSON.stringify(output), LOG_LEVELS[eventId]);
         this.lastTime = currentTime;
+    },
+
+    success: function (text) {
+        this.log(SUCCESS, text);
+    },
+    failed: function (text) {
+        this.log(FAILED, text);
+    },
+    orphan: function (text) {
+        this.log(ORPHAN, text);
+    },
+    denied: function (text) {
+        this.log(DENIED, text);
+    },
+    expired: function (text) {
+        this.log(EXPIRED, text);
+    },
+    error: function (text) {
+        this.log(ERROR, text);
+    },
+    warning: function (text) {
+        this.log(WARN, text);
+    },
+    info: function (text) {
+        this.log(LOG, text);
+    },
+    context: function (text) {
+        this.log(CONTEXT, text);
+    },
+    debug: function (text) {
+        this.log(DEBUG, text);
+    },
+    verbose: function (text) {
+        this.log(VERBOSE, text);
     },
 
     /**
@@ -204,7 +238,7 @@ const LOG_OBJECT = {
         this.user = getAttributeValue("oidc_username", "urn:ibm:names:ITFIM:5.1:accessmanager", ATTRIBUTE, "unknown");
         this.partner = getAttributeValue("oauth_token_client_id", "urn:ibm:names:ITFIM:oauth:response:attribute", CONTEXT, "");
     },
-    
+
     doingOTP: function () {
         this.webseal = getAttributeValue("iv_server_name", "otp.useragent.httpheader.type", CONTEXT, "");
         this.srcIp = getAttributeValue("x-forwarded-for", "otp.useragent.httpheader.type", CONTEXT, getAttributeValue("iv-remote-address", "otp.useragent.httpheader.type", CONTEXT, ""));
@@ -215,5 +249,5 @@ const LOG_OBJECT = {
     }
 }
 
-// Initialises logging object.
+// Initializes logging object.
 logger = Object.create(LOG_OBJECT);
