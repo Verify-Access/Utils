@@ -260,7 +260,7 @@ var inputValidate = new function () {
      * @returns {boolean} Returns `true` if URL contains expected host, else returns `false`.
      */
     this.host = function (fullUrl, hostToLookFor) {
-        var regex = /^(([^:\/?#]+):)?(\/\/([^\/?#:]*))?([^?#]*)(\?([^#]*))?(#(.*))?/;
+        var regex = /^(([^:\/?#]+):)?(\/\/([^\/?#:\\]*))?([^?#]*)(\?([^#]*))?(#(.*))?/;
         var found = fullUrl.match(regex);
         var isValid = false;
 
