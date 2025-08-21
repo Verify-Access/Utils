@@ -57,7 +57,7 @@ const LOG_OBJECT = {
     resource: "",
     state: "",
     user_agent: "",
-    webseal: "", // Add hostname details into field during deployment.
+    webseal: "",
     runtime: "", // Add hostname details into field during deployment.
     srcIp: "",
     init: new Date(), // Timestamp logger was initialized.
