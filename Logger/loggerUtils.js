@@ -31,8 +31,12 @@ const LOG_LEVELS = {
     VERBOSE: LOG_FINEST
 }
 
+// Control which logging events are written to either the `trace.log` or `message.log` files. Default: All events are written to `trace.log`.
+const TRACE_LOG_LEVELS = [LOG_SEVERE, LOG_WARNING, LOG_INFO, LOG_FINE, LOG_FINER, LOG_FINEST];
+const MESSAGE_LOG_LEVELS = [];
+
 const LOGGER_NAME = "Verify_Access_Logger"
-const LOGGER_VERSION = "1.1.0"
+const LOGGER_VERSION = "1.2.0"
 
 function getDetailedTimestamp() {
     // Format aligned to what Logstash expects.
@@ -53,8 +57,8 @@ const LOG_OBJECT = {
     resource: "",
     state: "",
     user_agent: "",
-    webseal: "",
-    runtime: "",
+    webseal: "", // Add hostname details into field during deployment.
+    runtime: "", // Add hostname details into field during deployment.
     srcIp: "",
     init: new Date(), // Timestamp logger was initialized.
     lastTime: new Date(), // Timestamp of last time a logger.log() was written.
@@ -94,7 +98,15 @@ const LOG_OBJECT = {
         for (result in this.timerResults) {
             output["timer_" + result] = this.timerResults[result]
         }
-        IDMappingExtUtils.traceString("##" + LOGGER_NAME + "_ver=" + LOGGER_VERSION + "##" + JSON.stringify(output), LOG_LEVELS[eventId]);
+
+        // Write event to `trace.log` if logging level is in allowed array.
+        if (TRACE_LOG_LEVELS[LOG_LEVELS[eventId]]) {
+            IDMappingExtUtils.traceString("##" + LOGGER_NAME + "_ver=" + LOGGER_VERSION + "##" + JSON.stringify(output), LOG_LEVELS[eventId]);
+        }
+        // Write event to `message.log` if logging level is in allowed array.
+        if (MESSAGE_LOG_LEVELS[LOG_LEVELS[eventId]]) {
+            System.out.println("##" + LOGGER_NAME + "_ver=" + LOGGER_VERSION + "##" + JSON.stringify(output));
+        }
         this.lastTime = currentTime;
     },
 
