@@ -100,11 +100,11 @@ const LOG_OBJECT = {
         }
 
         // Write event to `trace.log` if logging level is in allowed array.
-        if (TRACE_LOG_LEVELS[LOG_LEVELS[eventId]]) {
+        if (TRACE_LOG_LEVELS.includes(LOG_LEVELS[eventId])) {
             IDMappingExtUtils.traceString("##" + LOGGER_NAME + "_ver=" + LOGGER_VERSION + "##" + JSON.stringify(output), LOG_LEVELS[eventId]);
         }
         // Write event to `message.log` if logging level is in allowed array.
-        if (MESSAGE_LOG_LEVELS[LOG_LEVELS[eventId]]) {
+        if (MESSAGE_LOG_LEVELS.includes(LOG_LEVELS[eventId])) {
             System.out.println("##" + LOGGER_NAME + "_ver=" + LOGGER_VERSION + "##" + JSON.stringify(output));
         }
         this.lastTime = currentTime;
